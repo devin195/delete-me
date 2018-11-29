@@ -1,0 +1,94 @@
+---
+title: "Bad_days_tutorial"
+output: html_notebook
+---
+```{r}
+# In case you need to install the packages
+ install.packages("xlsx")
+ install.packages("gdata")
+ install.packages("ape")
+```
+
+```{r}
+# Install multtest from Bioconductor
+# If R version is 3.5 or higher, install the new way:
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("multtest", version = "3.8")
+
+#If R version is 3.4 or older, try installing the old way instead:
+source("http://bioconductor.org/biocLite.R");
+biocLite("multtest");
+```
+
+```{r}
+require(multtest);
+
+# Usage
+data(golub);
+```
+
+```{r}
+# Checking the dimension of the data
+dim(golub)
+```
+
+```{r}
+# we will have a look at the first rows contained in the data set
+head(golub)
+```
+
+```{r}
+# Adding 3051 gene names
+row.names(golub) = golub.gnames[,3]
+
+head(golub)
+```
+
+```{r}
+# Let's just have a look at the top 20 genes ID's contained in golub.gnames
+head(golub.gnames[,2], n = 20)
+```
+
+```{r}
+colnames(golub) = golub.cl
+
+head(golub)
+```
+
+```{r}
+gol.fac <-  factor(golub.cl, levels = 0:1, labels = c("AML", "ALL"))
+```
+
+```{r}
+golub[1042, gol.fac == "ALL"]
+```
+
+```{r}
+mygene <- golub[1042, ]
+```
+
+```{r}
+plot(mygene)
+```
+
+```{r}
+plot(mygene, pch = 15, col = 'slateblue', ylab = 'Expression value of gene: CCND3', 
+    main = ' Gene expression values of CCND3 Cyclin D3')
+```
+
+```{r}
+plot(golub[,1], golub[,38])
+```
+
+```{r}
+plot(golub[,1], golub[,38], xlab = 'Patient 1 (ALL)', ylab = 'Patient 38 (AML)') 
+abline(a = 0, b = 1, col = 'mediumpurple', lwd =3)
+```
+
+```{r}
+mysamplist <- golub[, c(1:15)]
+colnames(mysamplist) = c(1:15)
+```
+
+
